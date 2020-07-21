@@ -1,2 +1,16 @@
-p{ color: green
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#custom {
+    background-color: lavender;
+    font-size: x-large;
+    text-align: center;
+    height: 2rem;
+    
+}
+.form-popup {
+    display:none;
+    position: fixed;
+    z-index: 9;
 }
