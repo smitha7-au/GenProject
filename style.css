@@ -9,3 +9,8 @@ body {
     height: 2rem;
     
 }
+.form-popup {
+    display:none;
+    position: fixed;
+    z-index: 9;
+}
