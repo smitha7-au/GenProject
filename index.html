@@ -12,42 +12,316 @@
     <title>Add Task</title>
   </head>
   <body>
-    <div class="container border border-primary rounded-lg my-5">
-        <form>
-            
-            <h1 id="custom">Add Task <button type="button" class="close">&times;</button></h1>
-            <div class="form-group">
-                <label for="forInputTask"><dt>Task</dt></label>
-                <input type="text" class="form-control" placeholder="Enter the task">
-            </div>
-            <div class="form-group">
-                <label for="forTaskDescription"><dt>Description</dt></label>
-                <input type="text" class="form-control" placeholder="Enter the task description">
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="inputDate"><dt>Due Date</dt></label>
-                    <input type="datetime-local" class="form-control" id="inputDate" placeholder="dd/mm/yyyy">
+    <div class="container">
+        <div class="list-group">
+
+            <div class="card border-info mt-5">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title">Task1: Wireframes</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="dueDateLabel">Due Date: 21/07/2020</h5>
+                            <!-- <label for="forAssignedTo"><dt>Assigned To</dt></label> -->
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group col-md-4 offset-4">
-                    <label for="forAssignedTo"><dt>Assigned To</dt></label>
-                    <select class="form-control" id="forAssignedTo">
-                        <option>Smitha TK</option>
-                        <option>Archana N</option>
+                
+                <div class="card-body">
+                        <label for="forTaskDescription"><dt>Description</dt></label>
+                        <div class="overflow-auto border">
+                            <p class="card-text">Create a wireframe for the taskplanner using Figma.</p>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-6 border">
+                                <label for="forAssignedTo"><dt>Assigned To</dt></label>
+                                <p>Smitha TK</p>
+                            </div>
+                            <div class="col-md-6 border">
+                                <label for="selectStatus"><dt>Status</dt></label>
+                                <p>Done</p>
+                            </div>
+                    
+                        </div>
+                    
+                </div>
+                    <ul class="nav nav-tabs ml-auto">
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Update/Edit</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Delete Task</a>
+                        </li>
+                    </ul>
+                
+            </div>
+            <div class="card border-info mt-2">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title">Task2: Implement wireframes using Bootstrap</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="dueDateLabel">Due Date: 22/07/2020</h5>
+                            <!-- <label for="forAssignedTo"><dt>Assigned To</dt></label> -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                        <label for="forTaskDescription"><dt>Description</dt></label>
+                        <div class="overflow-auto border">
+                            <p class="card-text">Task Form fields are displayed in an organized way and with the proper label.
+                                All input fields are mapped in the Task Form (Name, Description, AssignedTo, DueDate, Status).
+                                A Select type is used for the different Status options (TODO, IN PROGRESS, REVIEW, DONE)
+                                </p>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-6 border">
+                                <label for="forAssignedTo"><dt>Assigned To</dt></label>
+                                <p>Smitha TK</p>
+                            </div>
+                            <div class="col-md-6 border">
+                                <label for="selectStatus"><dt>Status</dt></label>
+                                <p>In Progress</p>
+                            </div>
+                    
+                        </div>
+                    
+                </div>
+                    <ul class="nav nav-tabs ml-auto">
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Update/Edit</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Delete Task</a>
+                        </li>
+                    </ul>
+                
+            </div>
+            <div class="card border-info mt-2">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title">Task 3: Create a Task Card layout and a Task List component
+                            </h5>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="dueDateLabel">Due Date: 27/07/2020</h5>
+                            <!-- <label for="forAssignedTo"><dt>Assigned To</dt></label> -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                        <label for="forTaskDescription"><dt>Description</dt></label>
+                        <div class="overflow-auto border">
+                            <p class="card-text">Task Form fields are displayed in an organized way and with the proper label.
+                                All input fields are mapped in the Task Form (Name, Description, AssignedTo, DueDate, Status).
+                                A Select type is used for the different Status options (TODO, IN PROGRESS, REVIEW, DONE)
+                                </p>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-6 border">
+                                <label for="forAssignedTo"><dt>Assigned To</dt></label>
+                                <p>Smitha TK</p>
+                            </div>
+                            <div class="col-md-6 border">
+                                <label for="selectStatus"><dt>Status</dt></label>
+                                <p>In Progress</p>
+                            </div>
+                    
+                        </div>
+                    
+                </div>
+                    <ul class="nav nav-tabs ml-auto">
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Update/Edit</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Delete Task</a>
+                        </li>
+                    </ul>
+                
+            </div>
+            <div class="card border-info mt-2">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title">Task 4: Task Form Inputs Validation</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="dueDateLabel">Due Date: 30/07/2020</h5>
+                            <!-- <label for="forAssignedTo"><dt>Assigned To</dt></label> -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                        <label for="forTaskDescription"><dt>Description</dt></label>
+                        <div class="overflow-auto border">
+                            <p class="card-text">All form fields are validated on form submission(Name, Description, AssignedTo, DueDate, Status).
+                                A meaningful error message is displayed when a form field is invalid.
+                                The JavaScript code is in a separate file and the file is included in the HTML page with no errors.                                
+                                </p>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-6 border">
+                                <label for="forAssignedTo"><dt>Assigned To</dt></label>
+                                <p>Archana N</p>
+                            </div>
+                            <div class="col-md-6 border">
+                                <label for="selectStatus"><dt>Status</dt></label>
+                                <p>To Do</p>
+                            </div>
+                    
+                        </div>
+                    
+                </div>
+                    <ul class="nav nav-tabs ml-auto">
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Update/Edit</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Delete Task</a>
+                        </li>
+                    </ul>
+                
+            </div>
+        
+            <div class="card border-info mt-2">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title">Task 4: Task Form Inputs Validation</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="dueDateLabel">Due Date: 30/07/2020</h5>
+                            <!-- <label for="forAssignedTo"><dt>Assigned To</dt></label> -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                        <label for="forTaskDescription"><dt>Description</dt></label>
+                        <div class="overflow-auto border">
+                            <p class="card-text">All form fields are validated on form submission(Name, Description, AssignedTo, DueDate, Status).
+                                A meaningful error message is displayed when a form field is invalid.
+                                The JavaScript code is in a separate file and the file is included in the HTML page with no errors.                                
+                                </p>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-6 border">
+                                <label for="forAssignedTo"><dt>Assigned To</dt></label>
+                                <p>Archana N</p>
+                            </div>
+                            <div class="col-md-6 border">
+                                <label for="selectStatus"><dt>Status</dt></label>
+                                <p>To Do</p>
+                            </div>
+                    
+                        </div>
+                    
+                </div>
+                    <ul class="nav nav-tabs ml-auto">
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Update/Edit</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Delete Task</a>
+                        </li>
+                    </ul>
+                
+                </div>
+
+                <div class="card border-info mt-2">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h5 class="card-title">Task 5: Create the Tasks Model using JavaScript</h5>
+                            </div>
+                            <div class="col-md-4">
+                                <h5 class="dueDateLabel">Due Date: 14/08/2020</h5>
+                                <!-- <label for="forAssignedTo"><dt>Assigned To</dt></label> -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                            <label for="forTaskDescription"><dt>Description</dt></label>
+                            <div class="overflow-auto border">
+                                <p class="card-text">
+                                    The JSON format represents objects in JavaScript.
+                                    Classes are correctly defined using JavaScript.
+                                    Class functions are correctly defined using JavaScript.                                                                    
+                                    </p>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-md-6 border">
+                                    <label for="forAssignedTo"><dt>Assigned To</dt></label>
+                                    <p>Archana N</p>
+                                </div>
+                                <div class="col-md-6 border">
+                                    <label for="selectStatus"><dt>Status</dt></label>
+                                    <p>To Do</p>
+                                </div>
+                        
+                            </div>
+                        
+                    </div>
+                        <ul class="nav nav-tabs ml-auto">
+                            <li class="nav-item">
+                            <a class="nav-link" href="#">Update/Edit</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="#">Delete Task</a>
+                            </li>
+                        </ul>
+                    
+                    </div>
+
+
+            </div>
+        
+
+        <div>    
+            <form class="form-container border border-primary rounded-lg my-5 px-2">
+                
+                <h1 id="custom">Add Task <button type="button" class="close">&times;</button></h1>
+                <div class="form-group">
+                    <label for="forInputTask"><dt>Task</dt></label>
+                    <input type="text" class="form-control" placeholder="Enter the task">
+                </div>
+                <div class="form-group">
+                    <label for="forTaskDescription"><dt>Description</dt></label>
+                    <input type="text" class="form-control" placeholder="Enter the task description">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputDate"><dt>Due Date</dt></label>
+                        <input type="datetime-local" class="form-control" id="inputDate" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="form-group col-md-4 offset-4">
+                        <label for="forAssignedTo"><dt>Assigned To</dt></label>
+                        <select class="form-control" id="forAssignedTo">
+                            <option>Smitha TK</option>
+                            <option>Archana N</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="selectStatus"><dt>Status</dt></label>
+                    <select class="form-control" id="selectStatus">
+                        <option>To Do</option>
+                        <option>In Progress</option>
+                        <option>Review</option>
+                        <option>Done</option>
                     </select>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="selectStatus"><dt>Status</dt></label>
-                <select class="form-control" id="selectStatus">
-                    <option>To Do</option>
-                    <option>In Progress</option>
-                    <option>Review</option>
-                    <option>Done</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary my-2">Add Task</button>
-        </form>
+                <button type="submit" class="btn btn-primary my-2">Add Task</button>
+            </form>
+        </div>
     </div>
 
     <!-- Optional JavaScript -->
