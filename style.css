@@ -2,26 +2,12 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-#custom {
+
+.card-header, .nav, .modal-header {
     background-color: lavender;
-    font-size: x-large;
+}
+
+#plannerHeading {
+    background-color: lavender;
     text-align: center;
-    height: 2rem;
-    
 }
-.form-popup {
-    display:none;
-    position: fixed;
-    z-index: 9;
-
-}
-     h1 {
-            text-align: center;
-        }
-
-        .button {
-
-            float: left;
-        }
-}
-
