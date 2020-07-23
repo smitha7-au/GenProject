@@ -13,6 +13,9 @@
   </head>
   <body>
     <div class="container">
+        <h3 id="plannerHeading">Task Planner</h3>
+        <button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#taskModal">Add Task</button>
+
         <div class="list-group">
 
             <div class="card border-info mt-5">
@@ -109,7 +112,6 @@
                         </div>
                         <div class="col-md-4">
                             <h5 class="dueDateLabel">Due Date: 27/07/2020</h5>
-                            <!-- <label for="forAssignedTo"><dt>Assigned To</dt></label> -->
                         </div>
                     </div>
                 </div>
@@ -286,41 +288,56 @@
         
 
         <div>    
-            <form class="form-container border border-primary rounded-lg my-5 px-2">
-                
-                <h1 id="custom">Add Task <button type="button" class="close">&times;</button></h1>
-                <div class="form-group">
-                    <label for="forInputTask"><dt>Task</dt></label>
-                    <input type="text" class="form-control" placeholder="Enter the task">
-                </div>
-                <div class="form-group">
-                    <label for="forTaskDescription"><dt>Description</dt></label>
-                    <input type="text" class="form-control" placeholder="Enter the task description">
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="inputDate"><dt>Due Date</dt></label>
-                        <input type="datetime-local" class="form-control" id="inputDate" placeholder="dd/mm/yyyy">
+            <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="taskModalLabel">Add Task</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                     </div>
-                    <div class="form-group col-md-4 offset-4">
-                        <label for="forAssignedTo"><dt>Assigned To</dt></label>
-                        <select class="form-control" id="forAssignedTo">
-                            <option>Smitha TK</option>
-                            <option>Archana N</option>
-                        </select>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="forInputTask"><dt>Task</dt></label>
+                            <input type="text" class="form-control" placeholder="Enter the task">
+                        </div>
+                        <div class="form-group">
+                            <label for="forTaskDescription"><dt>Description</dt></label>
+                            <input type="text" class="form-control" placeholder="Enter the task description">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <label for="inputDate"><dt>Due Date</dt></label>
+                                <input type="datetime-local" class="form-control" id="inputDate" placeholder="dd/mm/yyyy">
+                            </div>
+                            <div class="form-group col-md-4 offset-3">
+                                <label for="forAssignedTo"><dt>Assigned To</dt></label>
+                                <select class="form-control" id="forAssignedTo">
+                                    <option>-</option>
+                                    <option>Smitha TK</option>
+                                    <option>Archana N</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectStatus"><dt>Status</dt></label>
+                            <select class="form-control" id="selectStatus">
+                                <option>-</option>
+                                <option>To Do</option>
+                                <option>In Progress</option>
+                                <option>Review</option>
+                                <option>Done</option>
+                            </select>
+                        </div>
                     </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Add Task</button>
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label for="selectStatus"><dt>Status</dt></label>
-                    <select class="form-control" id="selectStatus">
-                        <option>To Do</option>
-                        <option>In Progress</option>
-                        <option>Review</option>
-                        <option>Done</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary my-2">Add Task</button>
-            </form>
+              </div>
         </div>
     </div>
 
