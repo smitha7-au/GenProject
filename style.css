@@ -13,4 +13,15 @@ body {
     display:none;
     position: fixed;
     z-index: 9;
+
 }
+     h1 {
+            text-align: center;
+        }
+
+        .button {
+
+            float: left;
+        }
+}
+
