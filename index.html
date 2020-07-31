@@ -10,7 +10,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="projectstyle.css">
+    <link rel="stylesheet" href="style.css">
     <title>Add Task</title>
 </head>
 
@@ -378,19 +378,28 @@
                                         <label for="inputDate">
                                             <dt>Due Date</dt>
                                         </label>
-                                        <input type="datetime-local" class="form-control" id="inputDate"
-                                            placeholder="dd/mm/yyyy">
+                                        <input id="duedate" type="datetime-local" class="form-control" id="inputDate"
+                                            placeholder="dd/mm/yyyy" required>
+                                        <div class="valid-feedback">
+                                            Due date validated successfully
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Enter the due date
+                                        </div>
                                     </div>
                                     <div class="form-group col-md-4 offset-3">
                                         <label for="forAssignedTo">
                                             <dt>Assigned To</dt>
                                         </label>
-                                        <select class="form-control" namde="forAssignedTo" id="forAssignedTo" required>
-                                            <option selected disabled value="">-</option>
-                                            <option>12345</option>
-                                            <option>Smitha TK</option>
-                                            <option>Archana N</option>
-                                        </select>
+
+                                        <input id="txtTaskAssigned" type="text" class="form-control"
+                                            pattern=(?=.*[a-z,A-Z]).{8,} placeholder="Who is assigned to" required>
+                                        <div class="valid-feedback">
+                                            Task Assigned To validated successfully
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid task description with a minimum of '8' characters.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -419,8 +428,7 @@
         </form>
 
     </div>
-    <!-- <script src="trialapp.js"></script> -->
-    <script src="projectapp.js"></script>
+    <script src="app.js"></script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
