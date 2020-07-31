@@ -332,61 +332,94 @@
             </div>
         
 
-        <div>    
-            <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <form>
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="taskModalLabel">Add Task</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      
-                      <div class="modal-body">
-                        <div id ="validMessage"></div>
-                          <div class="form-group">
-                              <label for="forInputTask"><dt>Task</dt></label>
-                              <input type="text" id="forInputTask" class="form-control" placeholder="Enter the task" required>
-                          </div>
-                          <div class="form-group">
-                              <label for="forTaskDescription"><dt>Description</dt></label>
-                              <input type="text" id="forTaskDescription" class="form-control" placeholder="Enter the task description">
-                          </div>
-                          <div class="form-row">
-                              <div class="form-group col-md-5">
-                                  <label for="inputDate"><dt>Due Date</dt></label>
-                                  <input type="datetime-local"  class="form-control" id="inputDate" placeholder="dd/mm/yyyy">
-                              </div>
-                              <div class="form-group col-md-4 offset-3">
-                                  <label for="forAssignedTo"><dt>Assigned To</dt></label>
-                                  <input type="text" class="form-control" id="forAssignedTo">       
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label for="selectStatus"><dt>Status</dt></label>
-                              <select class="form-control" name="Tstatus" id="selectStatus">
-                                  <option>To Do</option>
-                                  <option>In Progress</option>
-                                  <option>Review</option>
-                                  <option>Done</option>
-                              </select>
-                          </div>
-                      
-                      
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" id="btnClick" class="btn btn-primary" onclick="validate()">Add Task</button>
-                      </div>
-                    </form>
-                  </div>
+            <form id="frmAddTask" class="needs-validation" novalidate>
+                <div>
+                    <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="taskModalLabel">Add Task</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="validation">
+                                            <dt>Task</dt>
+                                        </label>
+                                        <input id="txtTaskName" type="text" class="form-control"
+                                            pattern=(?=.*[a-z,A-Z]).{8,} placeholder="Enter the task" required>
+                                        <div class="valid-feedback">
+                                            Task name validated successfully
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid task name with a minimum of '8' characters.
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="forTaskDescription">
+                                            <dt>Description</dt>
+                                        </label>
+                                        <input id="txtTaskDec" type="text" class="form-control"
+                                            pattern=(?=.*[a-z,A-Z]).{15,} placeholder="Enter the task description" required>
+                                        <div class="valid-feedback">
+                                            Task description validated successfully
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid task description with a minimum of '15' characters.
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5">
+                                            <label for="inputDate">
+                                                <dt>Due Date</dt>
+                                            </label>
+                                            <input id="duedate" type="datetime-local" class="form-control" id="inputDate"
+                                                placeholder="dd/mm/yyyy" required>
+                                            <div class="valid-feedback">
+                                                Due date validated successfully
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Enter the due date
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4 offset-3">
+                                            <label for="forAssignedTo">
+                                                <dt>Assigned To</dt>
+                                            </label>
+                                            <input id="txtTaskAssigned" type="text" class="form-control"
+                                                pattern=(?=.*[a-z,A-Z]).{8,} placeholder="Who is assigned to" required>
+                                            <div class="valid-feedback">
+                                                Task Assigned To validated successfully
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please provide a valid task description with a minimum of '8' characters.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectStatus">
+                                            <dt>Status</dt>
+                                        </label>
+                                        <select class="form-control" id="selectStatus">
+                                            <option>To Do</option>
+                                            <option>In Progress</option>
+                                            <option>Review</option>
+                                            <option>Done</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Add Task</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-
-            </div>
-        </form>
-
+            </form>
     </div>
     <script src="app.js"></script>
 
