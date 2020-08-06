@@ -17,6 +17,28 @@
 
 })();
 
+function CaptureValues() {
+    var TaskName, TaskDesc, DueDate, AssignedTo, Status;
+    // assigning the input values in to the domain variables.
+    TaskName = document.getElementById('txtTaskName').value;
+    TaskDesc = document.getElementById('txtTaskDec').value;
+    DueDate = document.getElementById('duedate').value;
+    AssignedTo = document.getElementById('txtTaskAssigned').value;
+    Status = document.getElementById('selectStatus').value;
+
+    //  alert(TaskName, TaskDesc, DueDate, AssignedTo, Status);
+
+    // Create an object of a task now and pass the input values 
+    var taskAdmin = new TaskManager();
+    taskAdmin.addTask(TaskName, TaskDesc, DueDate, AssignedTo, Status);
+    addTaskToHTML(TaskName);// This method is now updating the html page with the input values
+}
+
+function addTaskToHTML(name) { // }, desc, duedate, assignedto, status) {
+    alert(name);
+    document.getElementById("taskname1").innerHTML = name;
+}
+
 class Task {
     constructor(ID, name, desc, date, assignedTo, status) {
         this.ID = ID;
@@ -93,10 +115,9 @@ class TaskManager {
         }
         return AllTasksInfo;
     }
-
-
 } // end of Task Manager Class
 
+/*
 var taskAdmin = new TaskManager();
 //------------------------------------------- Adding tasks---------------------------------------------------
 taskAdmin.addTask("Shopping", "Buy milk and cheese", "04/08/2020", "John", "Done");
@@ -117,7 +138,8 @@ document.getElementById("AllTasksAfterUpdate").innerHTML = taskAdmin.getAllTasks
 taskAdmin.deleteTask(502);
 document.getElementById("DeleteTasksHeader").innerHTML = "Below are the results after deleting record with ID 502.";
 document.getElementById("AllTasksAfterDelete").innerHTML = taskAdmin.getAllTasksForHTML();
-// --------------------------------------- Now calling getTaskInfoWithStatus method ---------------------------               
+// --------------------------------------- Now calling getTaskInfoWithStatus method ---------------------------
 // To display in HTML
 document.getElementById("GetTasksStatusHeader").innerHTML = "Below are the results of all the records where the status is in 'Review' status.";
 document.getElementById("AllTasksWithStatus").innerHTML = taskAdmin.getTaskInfoWithStatus("Review");
+*/
