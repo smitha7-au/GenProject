@@ -17,15 +17,15 @@
 <body>
     <div class="container">
         <h3 id="plannerHeading">Task Planner</h3>
-        <button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#taskModal">Add
+        <button id="btnAddTask" type="button" class="btn btn-primary mt-4" data-toggle="modal"
+            data-target="#taskModal">Add
             Task</button>
 
         <div class="list-group">
-
             <div class="card border-info mt-5">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-8" id="taskname1">
                             <h5 class="card-title">Task1: Wireframes</h5>
                         </div>
                         <div class="col-md-4">
@@ -330,9 +330,9 @@
                 </ul>
 
             </div>
-        
 
-            <form id="frmAddTask" class="needs-validation" novalidate>
+
+            <form id="frmAddTask" class="needs-validation" novalidate onsubmit="CaptureValues()">
                 <div>
                     <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel"
                         aria-hidden="true">
@@ -363,7 +363,8 @@
                                             <dt>Description</dt>
                                         </label>
                                         <input id="txtTaskDec" type="text" class="form-control"
-                                            pattern=(?=.*[a-z,A-Z]).{15,} placeholder="Enter the task description" required>
+                                            pattern=(?=.*[a-z,A-Z]).{15,} placeholder="Enter the task description"
+                                            required>
                                         <div class="valid-feedback">
                                             Task description validated successfully
                                         </div>
@@ -376,7 +377,7 @@
                                             <label for="inputDate">
                                                 <dt>Due Date</dt>
                                             </label>
-                                            <input id="duedate" type="datetime-local" class="form-control" id="inputDate"
+                                            <input id="duedate" type="datetime-local" class="form-control"
                                                 placeholder="dd/mm/yyyy" required>
                                             <div class="valid-feedback">
                                                 Due date validated successfully
@@ -395,7 +396,8 @@
                                                 Task Assigned To validated successfully
                                             </div>
                                             <div class="invalid-feedback">
-                                                Please provide a valid task description with a minimum of '8' characters.
+                                                Please provide a valid task description with a minimum of '8'
+                                                characters.
                                             </div>
                                         </div>
                                     </div>
@@ -420,22 +422,22 @@
                     </div>
                 </div>
             </form>
-    </div>
-    <script src="app.js"></script>
+        </div>
+        <script src=" app.js"></script>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <!-- No Comments -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+        <!-- No Comments -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>
