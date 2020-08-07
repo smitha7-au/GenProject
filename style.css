@@ -11,4 +11,8 @@ body {
     background-color: lavender;
     text-align: center;
 }
+
+#validMessage {
+    color: red;
+}
 /* No comments */
