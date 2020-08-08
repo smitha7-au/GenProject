@@ -14,30 +14,7 @@
             }, false);
         });
     }, false);
-
 })();
-
-function CaptureValues() {
-    var TaskName, TaskDesc, DueDate, AssignedTo, Status;
-    // assigning the input values in to the domain variables.
-    TaskName = document.getElementById('txtTaskName').value;
-    TaskDesc = document.getElementById('txtTaskDec').value;
-    DueDate = document.getElementById('duedate').value;
-    AssignedTo = document.getElementById('txtTaskAssigned').value;
-    Status = document.getElementById('selectStatus').value;
-
-    //  alert(TaskName, TaskDesc, DueDate, AssignedTo, Status);
-
-    // Create an object of a task now and pass the input values 
-    var taskAdmin = new TaskManager();
-    taskAdmin.addTask(TaskName, TaskDesc, DueDate, AssignedTo, Status);
-    addTaskToHTML(TaskName);// This method is now updating the html page with the input values
-}
-
-function addTaskToHTML(name) { // }, desc, duedate, assignedto, status) {
-    alert(name);
-    document.getElementById("taskname1").innerHTML = name;
-}
 
 class Task {
     constructor(ID, name, desc, date, assignedTo, status) {
@@ -48,22 +25,72 @@ class Task {
         this.AssignedTo = assignedTo;
         this.Status = status;
     }
+
+    toHTMLElement() {
+        const htmlStr = this.toHTMLString();
+        const element = document.createRange().createContextualFragment(htmlStr);
+        element
+            .querySelector("button.edit")
+            .addEventListener("click", editTaskClicked);
+        element
+            .querySelector("button.delete")
+            .addEventListener("click", deleteTaskClicked);
+
+        return element;
+    }
+
+    toHTMLString() {
+        const htmlString = `
+        <div class="card border-info mt-2">
+            <div id ="${this.ID}" class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title">${this.TaskName}</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="dueDateLabel">Due Date: ${this.DueDate}</h5>                        
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <label for="forTaskDescription">
+                        <dt>Description</dt>
+                    </label>
+                    <div class="overflow-auto border">
+                        <p class="card-text">${this.TaskDesc}</p>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-md-6 border">
+                            <label for="forAssignedTo">
+                                <dt>Assigned To</dt>
+                            </label>
+                            <p>${this.AssignedTo}</p>
+                        </div>
+                        <div class="col-md-6 border">
+                            <label for="selectStatus">
+                                <dt>Status</dt>
+                            </label>
+                            <p>${this.Status}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="edit btn-primary btn-lg float-right ml-2"><i class="far fa-edit"></i></button>
+                    <button class="delete btn-danger btn-lg float-right"><i class="fa fa-trash"></i></button>                
+                </div>
+            </div>
+      </div>`;
+        return htmlString;
+    }
 }
 
 // java script task class object
 class TaskManager {
-    constructor() {
+    constructor(parent) {
         this.ID = 501;
         this.tasks = [];
-    }
-
-    // This method is used to Display all the tasks on the console.
-    getAllTasks() {
-        //return this.tasks;
-        for (var i = 0; i < taskAdmin.tasks.length; i++) {
-            if (i === this.tasks.length) { break; }
-            console.log(this.tasks[i]);
-        }
+        this.parent = parent;
     }
 
     //Add task method
@@ -72,74 +99,76 @@ class TaskManager {
         this.tasks.push(addNewTask);
     }
 
-    //Edit method
-    UpdateTask(id, name, desc, duedate, assignedto, status) {
-        for (var i = 0; this.tasks.length; i++) {
-            if (this.tasks[i].ID === id) {
-                this.tasks[i].TaskName = name;
-                this.tasks[i].TaskDesc = desc;
-                this.tasks[i].DueDate = duedate;
-                this.tasks[i].AssignedTo = assignedto;
-                this.tasks[i].Status = status;
-                break;
-            }
-        }
-    }
+    display() {
+        // refreshes the page after adding        
+        this.parent.innerHTML = "";
+        this.tasks.forEach((task) => {
+            this.parent.append(task.toHTMLElement());
 
-    //delete task method
+        });
+    }
     deleteTask(id) {
-        this.tasks = this.tasks.filter((h) => h.ID !== id);
-        //this.tasks.pop() // pop method only deletes the last record from the array. So we cant use this.
+        console.log(id);
+        this.tasks = this.tasks.filter((h) => h.ID != id);
+        console.log("tasks length : " + this.tasks.length);
     }
 
-    // get task info method by status
-    getTaskInfoWithStatus(Lstatus) {
-        var strTaskInfoForStatus;
-        for (var i = 0; this.tasks.length; i++) {
-            if (i === this.tasks.length) { break; }
-            if (this.tasks[i].Status === Lstatus) {
-                strTaskInfoForStatus += "<br/>Task Id is: " + this.tasks[i].ID + " | Task name is:  " + this.tasks[i].TaskName + " | Task Description is:  " + this.tasks[i].TaskDesc + " | Due date is:  " + this.tasks[i].DueDate
-                    + " | Assigned to: " + this.tasks[i].AssignedTo + " | Status:  " + this.tasks[i].Status;
-            }
-        }
-        return strTaskInfoForStatus;
-    }
-
-    // Below methods are used to display on the html page
-    getAllTasksForHTML() {
-        var AllTasksInfo;
-        for (var i = 0; i < taskAdmin.tasks.length; i++) {
-            //if (i === this.tasks.length) { break; }
-            AllTasksInfo += ("<br />Task Id: " + this.tasks[i].ID + " | Task name:  " + this.tasks[i].TaskName + " | Task Description:  " + this.tasks[i].TaskDesc + " | Due date:  " + this.tasks[i].DueDate
-                + " | Assigned to: " + this.tasks[i].AssignedTo + " | Status:  " + this.tasks[i].Status);
-        }
-        return AllTasksInfo;
-    }
 } // end of Task Manager Class
 
-/*
-var taskAdmin = new TaskManager();
-//------------------------------------------- Adding tasks---------------------------------------------------
-taskAdmin.addTask("Shopping", "Buy milk and cheese", "04/08/2020", "John", "Done");
-taskAdmin.addTask("Gardening", "Water the plants", "05/08/2020", "Das", "In Progress");
-taskAdmin.addTask("Learn Html", "Submit task 1", "06/08/2020", "Mark", "Review");
-taskAdmin.addTask("Learn CSS", "Practise CSS", "07/08/2020", "Mary", "In Progress");
-taskAdmin.addTask("Learn JavaScript", "Work on sprin1 task 5", "08/08/2020", "Adam", "Done");
-taskAdmin.addTask("Learn JSON", "how to create JSON objects", "09/08/2020", "Brown", "Review");
-//---------------------------------- Display on HTML page All the Tasks----------------------------------------
-document.getElementById("DisplayAllTasksHeader").innerHTML = "Below are the 6 tasks added successfully";
-document.getElementById("AllTasks").innerHTML = taskAdmin.getAllTasksForHTML();
-//-------------------------------------- Now calling the Edit method-------------------------------------------
-taskAdmin.UpdateTask(501, "Shopping", "Buy milk and cheese", "04 / 08 / 2020", "John K Smith", "Done");
-// Display on HTML page after Editing
-document.getElementById("UpdateTasksHeader").innerHTML = "Updating Assigned to from 'John' to 'John K Smith' for the record with ID 501.";
-document.getElementById("AllTasksAfterUpdate").innerHTML = taskAdmin.getAllTasksForHTML();
-// --------------------------------------- Now calling delete method ------------------------------------------------
-taskAdmin.deleteTask(502);
-document.getElementById("DeleteTasksHeader").innerHTML = "Below are the results after deleting record with ID 502.";
-document.getElementById("AllTasksAfterDelete").innerHTML = taskAdmin.getAllTasksForHTML();
-// --------------------------------------- Now calling getTaskInfoWithStatus method ---------------------------
-// To display in HTML
-document.getElementById("GetTasksStatusHeader").innerHTML = "Below are the results of all the records where the status is in 'Review' status.";
-document.getElementById("AllTasksWithStatus").innerHTML = taskAdmin.getTaskInfoWithStatus("Review");
-*/
+var allTasks = document.querySelector('#tskContainer');
+var taskAdmin = new TaskManager(allTasks); //Create an object for the TaskManager
+
+var taskForm = document.querySelector("#frmAddTask");
+taskForm.addEventListener("submit", taskFormSubmitted);
+
+function addTask(name, desc, duedate, assignedto, status) {
+    taskAdmin.addTask(name, desc, duedate, assignedto, status);
+}
+
+addTask("Shopping", "Buy milk and cheese", "04/08/2020", "John", "Done");
+addTask("Gardening", "Water the plants", "05/08/2020", "Das", "In Progress");
+taskAdmin.display();
+
+document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
+    e.preventDefault();
+    CaptureValuesFromModal();
+});
+
+function CaptureValuesFromModal() {
+    TaskName = document.getElementById('txtTaskName').value;
+    TaskDesc = document.getElementById('txtTaskDec').value;
+    DueDate = document.getElementById('duedate'); //.value.split('T')[0];
+    AssignedTo = document.getElementById('txtTaskAssigned').value;
+    Status = document.getElementById('selectStatus').value;
+    addTask(TaskName, TaskDesc, DueDate, AssignedTo, Status);
+    taskAdmin.display(); // Now display the cart that's added
+    //clear the fields
+    clearModalFields();
+}
+
+function clearModalFields() {
+    document.getElementById('txtTaskName').value = "";
+    document.getElementById('txtTaskDec').value = "";
+    document.getElementById('duedate').value = "";
+    document.getElementById('txtTaskAssigned').value = "";
+    document.getElementById('selectStatus').value = "";
+}
+
+function taskFormSubmitted(event) {
+    event.preventDefault();
+    $('#taskModal').modal('hide');
+}
+
+function editTaskClicked() {
+    const taskElement = event.target.closest('.task');
+    const task = taskAdmin.tasks.find((t) => taskElement.id == t.id);
+    console.log(task);
+}
+
+function deleteTaskClicked(event) {
+    //const element = event.target;    
+    const taskElement = event.target.closest('.card');
+    //console.log(taskElement.attributes.id.value);
+    taskAdmin.deleteTask(taskElement.attributes.id.value);
+    taskAdmin.display();
+}
