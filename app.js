@@ -15,6 +15,7 @@ class Task {
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-8">
+                        <h6>Task id: ${this.id+1}<h6>
                         <h5 class="card-title">${this.name}</h5>
                     </div>
                     <div class="col-md-4">
@@ -87,11 +88,11 @@ class TaskManager {
         document.querySelector('#forTaskDescription').value = '';
         document.querySelector('#forAssignedTo').value = '';
         document.querySelector('#inputDate').value = '';
-        document.querySelector('#selectStatus').value = '';
+        document.querySelector('#selectStatus').value = 'To Do';
     }
 
-    delete() {
-        this.tasks.splice((this.currentId-1), 1);
+    delete(id) {
+        this.tasks.splice((id), 1);
         this.display();
     
     }
@@ -151,7 +152,7 @@ document.addEventListener("click", (event) => {
     if(element.attributes.action) {
         const elementAction = element.attributes.action.value;
         if(elementAction =="delete") {
-            taskManager.delete(element);
+            taskManager.delete(element.id);
         }
     }
 });
