@@ -47,17 +47,14 @@ class Task {
                 </div>
             </div>
             <ul class="nav nav-tabs ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Update</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Delete</a>
-                </li>
-            </ul>
+            <li class="nav-item">
+                <button type="button" class="btn btn-primary">Update</button>
+            </li>
+            <li class="nav-item ">
+                <button type="button" action ="delete" class="btn btn-primary delete-task">Delete</button>
+            </li>
+        </ul>
             </div>`;
-            
-            // const html = `Task Id: ${this.id} <br> Task Name: ${this.name} <br> Task Desription: ${this.description} 
-            // <br> Assigned To: ${this.assignedTo} <br> Task Due Date: ${this.dueDate} <br> Task Status: ${this.status}<br><br>`;
         
             const element = document.createRange().createContextualFragment(html);
             return element;
@@ -67,8 +64,7 @@ class Task {
 class TaskManager {
     constructor(tasksContainer) {
         this.tasks =[];
-        this.currentId = 1;
-        // this.summaryContainer = summaryContainer;
+        this.currentId = 0;
         this.tasksContainer = tasksContainer;
     }
 
@@ -92,16 +88,14 @@ class TaskManager {
         document.querySelector('#forAssignedTo').value = '';
         document.querySelector('#inputDate').value = '';
         document.querySelector('#selectStatus').value = '';
-        document.getElementById('validMessage') = "";
+    }
+
+    delete() {
+        this.tasks.splice((this.currentId-1), 1);
+        this.display();
+    
     }
 }
-
-
-const task1 = new Task('9422a1', 'Task1', 'Creating Wireframes', 
-            'Jane', '05/08/2020', 'Done');
-const task2 = new Task('9422a2', 'Task2', 'Creating Classes', 
-'Robin', '25/08/2020', 'In Progress');
-
 
 
 
@@ -148,8 +142,26 @@ document.querySelector('#task-form').addEventListener('submit', (e) => {
 });
 
 const tasksContainer = document.querySelector("#tasklist");
-
-
 const taskManager = new TaskManager(tasksContainer);
-taskManager.add(task1);
-taskManager.add(task2);
+
+
+document.addEventListener("click", (event) => {
+    const element = event.target;
+    // console.log(element);
+    if(element.attributes.action) {
+        const elementAction = element.attributes.action.value;
+        if(elementAction =="delete") {
+            taskManager.delete(element);
+        }
+    }
+});
+
+
+
+// Static Inputs
+// const task1 = new Task('9422a1', 'Task1', 'Creating Wireframes', 
+// //             'Jane', '05/08/2020', 'Done');
+// const task2 = new Task('9422a2', 'Task2', 'Creating Classes', 
+// 'Robin', '25/08/2020', 'In Progress');
+// taskManager.add(task1);
+// taskManager.add(task2);
