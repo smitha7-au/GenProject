@@ -1,3 +1,4 @@
+var taskId;
 (function () {
     'use strict';
     window.addEventListener('load', function () {
@@ -102,24 +103,49 @@ class TaskManager {
     display() {
         // refreshes the page after adding        
         this.parent.innerHTML = "";
-        this.tasks.forEach((task) => {
-            this.parent.append(task.toHTMLElement());
+        this.tasks.forEach((t) => {
+            this.parent.append(t.toHTMLElement());
 
         });
     }
     deleteTask(id) {
-        console.log(id);
         this.tasks = this.tasks.filter((h) => h.ID != id);
-        console.log("tasks length : " + this.tasks.length);
+    }
+
+    //Edit method
+    UpdateTask(id, name, desc, duedate, assignedto, status) {
+        for (var i = 0; this.tasks.length; i++) {
+            if (this.tasks[i].ID == id) {
+                this.tasks[i].TaskName = name;
+                this.tasks[i].TaskDesc = desc;
+                this.tasks[i].DueDate = duedate;
+                this.tasks[i].AssignedTo = assignedto;
+                this.tasks[i].Status = status;
+                break;
+            }
+        }
+        this.display();
+        //return true;
     }
 
 } // end of Task Manager Class
 
-var allTasks = document.querySelector('#tskContainer');
-var taskAdmin = new TaskManager(allTasks); //Create an object for the TaskManager
+const allTasks = document.querySelector('#tskContainer');
+const taskAdmin = new TaskManager(allTasks); //Create an object for the TaskManager
 
-var taskForm = document.querySelector("#frmAddTask");
+const taskForm = document.querySelector("#frmAddTask");
 taskForm.addEventListener("submit", taskFormSubmitted);
+
+var InputTaskID = document.querySelector("#task-id");
+
+var btnAddTask = document.querySelector("#btnAddTask");
+btnAddTask.addEventListener("click", btnAddTaskClicked);
+
+function btnAddTaskClicked(event) {
+    InputTaskID = 0;
+    clearModalFields();
+    document.getElementById("btnSubmit").innerHTML = "Save";
+}
 
 function addTask(name, desc, duedate, assignedto, status) {
     taskAdmin.addTask(name, desc, duedate, assignedto, status);
@@ -131,19 +157,26 @@ taskAdmin.display();
 
 document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
     e.preventDefault();
-    CaptureValuesFromModal();
+    taskFormSubmitClick();
 });
 
-function CaptureValuesFromModal() {
+function taskFormSubmitClick() {
     TaskName = document.getElementById('txtTaskName').value;
     TaskDesc = document.getElementById('txtTaskDec').value;
-    DueDate = document.getElementById('duedate').value.split('T')[0];
     AssignedTo = document.getElementById('txtTaskAssigned').value;
     Status = document.getElementById('selectStatus').value;
-    addTask(TaskName, TaskDesc, DueDate, AssignedTo, Status);
-    taskAdmin.display(); // Now display the cart that's added
-    //clear the fields
-    clearModalFields();
+    if (InputTaskID > 0) {
+        DueDate = document.getElementById('duedate').value;
+        taskAdmin.UpdateTask(InputTaskID, TaskName, TaskDesc, DueDate, AssignedTo, Status);
+    }
+    else {
+        console.log("add task: " + TaskName);
+        DueDate = document.getElementById('duedate').value;//.split('T')[0];
+        addTask(TaskName, TaskDesc, DueDate, AssignedTo, Status);
+        //clear the fields
+        clearModalFields();
+        taskAdmin.display(); // Now display the card that's added
+    }
 }
 
 function clearModalFields() {
@@ -154,15 +187,21 @@ function clearModalFields() {
     document.getElementById('selectStatus').value = "";
 }
 
-function taskFormSubmitted(event) {
-    event.preventDefault();
-    $('#taskModal').modal('hide');
-}
-
 function editTaskClicked() {
-    const taskElement = event.target.closest('.task');
-    const task = taskAdmin.tasks.find((t) => taskElement.id == t.id);
-    console.log(task);
+    const taskElement = event.target.closest('.card');
+    //console.log(taskElement.attributes.id.value);
+    InputTaskID = taskElement.attributes.id.value
+
+    const task = taskAdmin.tasks.find((tc) => InputTaskID == tc.ID);
+    document.getElementById('txtTaskName').value = task.TaskName;
+    document.getElementById('txtTaskDec').value = task.TaskDesc
+    document.getElementById('duedate').value = task.DueDate
+    document.getElementById('txtTaskAssigned').value = task.AssignedTo;
+    document.getElementById('selectStatus').value = task.Status;
+
+    $('#taskModal').modal('show');
+    document.getElementById("btnSubmit").innerHTML = "Update";
+    taskFormSubmitClick(InputTaskID);
 }
 
 function deleteTaskClicked(event) {
@@ -171,4 +210,9 @@ function deleteTaskClicked(event) {
     //console.log(taskElement.attributes.id.value);
     taskAdmin.deleteTask(taskElement.attributes.id.value);
     taskAdmin.display();
+}
+
+function taskFormSubmitted(event) {
+    event.preventDefault();
+    $('#taskModal').modal('hide');
 }

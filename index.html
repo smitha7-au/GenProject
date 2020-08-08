@@ -36,12 +36,14 @@
                                 </button>
                             </div>
                             <div class="modal-body">
+                                <input id="task-id" type="text" class="form-control" hidden>
                                 <div class="form-group">
                                     <label for="validation">
                                         <dt>Task</dt>
                                     </label>
                                     <input id="txtTaskName" type="text" class="form-control"
-                                        pattern=(?=.*[a-z,A-Z]).{8,} placeholder="Enter the task" required>
+                                        pattern=(?=.*[a-z,A-Z]).{8,} title="with a minimum of '8' characters."
+                                        placeholder="Enter the task" required>
                                     <div class="valid-feedback">
                                         Task name validated successfully
                                     </div>
@@ -54,7 +56,8 @@
                                         <dt>Description</dt>
                                     </label>
                                     <input id="txtTaskDec" type="text" class="form-control"
-                                        pattern=(?=.*[a-z,A-Z]).{15,} placeholder="Enter the task description" required>
+                                        pattern=(?=.*[a-z,A-Z]).{15,} title="with a minimum of '15' characters."
+                                        placeholder="Enter the task description" required>
                                     <div class="valid-feedback">
                                         Task description validated successfully
                                     </div>
@@ -68,7 +71,7 @@
                                             <dt>Due Date</dt>
                                         </label>
                                         <input id="duedate" type="datetime-local" class="form-control"
-                                            placeholder="dd/mm/yyyy" required>
+                                            title="Date cannot be empty" placeholder="dd/mm/yyyy" required>
                                         <div class="valid-feedback">
                                             Due date validated successfully
                                         </div>
@@ -105,7 +108,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" id="myBtn">Add Task</button>
+                                <button type="submit" class="btn btn-primary" id="btnSubmit">Add Task</button>
                             </div>
                         </div>
                     </div>
