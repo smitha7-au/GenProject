@@ -137,7 +137,7 @@ document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
 function CaptureValuesFromModal() {
     TaskName = document.getElementById('txtTaskName').value;
     TaskDesc = document.getElementById('txtTaskDec').value;
-    DueDate = document.getElementById('duedate'); //.value.split('T')[0];
+    DueDate = document.getElementById('duedate').value.split('T')[0];
     AssignedTo = document.getElementById('txtTaskAssigned').value;
     Status = document.getElementById('selectStatus').value;
     addTask(TaskName, TaskDesc, DueDate, AssignedTo, Status);
