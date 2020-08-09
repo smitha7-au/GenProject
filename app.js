@@ -1,22 +1,3 @@
-var taskId;
-(function () {
-    'use strict';
-    window.addEventListener('load', function () {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function (form) {
-            form.addEventListener('submit', function (event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }, false);
-})();
-
 class Task {
     constructor(ID, name, desc, date, assignedTo, status) {
         this.ID = ID;
@@ -26,7 +7,6 @@ class Task {
         this.AssignedTo = assignedTo;
         this.Status = status;
     }
-
     toHTMLElement() {
         const htmlStr = this.toHTMLString();
         const element = document.createRange().createContextualFragment(htmlStr);
@@ -39,7 +19,6 @@ class Task {
 
         return element;
     }
-
     toHTMLString() {
         const htmlString = `
         <div class="card border-info mt-2">
@@ -86,133 +65,113 @@ class Task {
     }
 }
 
-// java script task class object
 class TaskManager {
-    constructor(parent) {
+    constructor(taskContainer) {
         this.ID = 501;
         this.tasks = [];
-        this.parent = parent;
+        this.taskContainer = taskContainer;
     }
-
-    //Add task method
-    addTask(name, desc, duedate, assignedto, status) {
-        const addNewTask = new Task(this.ID++, name, desc, duedate, assignedto, status);
+    addTask(name, desc, duedate, assignto, status) {
+        const addNewTask = new Task(this.ID++, name, desc, duedate, assignto, status);
         this.tasks.push(addNewTask);
+        //Display Task
+        this.display();
     }
-
     display() {
-        // refreshes the page after adding        
-        this.parent.innerHTML = "";
+        this.taskContainer.innerHTML = "";
         this.tasks.forEach((t) => {
-            this.parent.append(t.toHTMLElement());
-
+            this.taskContainer.append(t.toHTMLElement());
         });
     }
     deleteTask(id) {
         this.tasks = this.tasks.filter((h) => h.ID != id);
+        this.display();
     }
-
-    //Edit method
-    UpdateTask(id, name, desc, duedate, assignedto, status) {
-        for (var i = 0; this.tasks.length; i++) {
-            if (this.tasks[i].ID == id) {
+    editTask(taskId, name, desc, duedate, assignedTo, status) {
+        for (var i = 0; i < this.tasks.length; i++) {
+            if (this.tasks[i].ID == taskId) {
                 this.tasks[i].TaskName = name;
                 this.tasks[i].TaskDesc = desc;
                 this.tasks[i].DueDate = duedate;
-                this.tasks[i].AssignedTo = assignedto;
+                this.tasks[i].AssignedTo = assignedTo;
                 this.tasks[i].Status = status;
                 break;
             }
         }
         this.display();
-        //return true;
     }
-
-} // end of Task Manager Class
-
-const allTasks = document.querySelector('#tskContainer');
-const taskAdmin = new TaskManager(allTasks); //Create an object for the TaskManager
-
-const taskForm = document.querySelector("#frmAddTask");
-taskForm.addEventListener("submit", taskFormSubmitted);
-
-var InputTaskID = document.querySelector("#task-id");
-
-var btnAddTask = document.querySelector("#btnAddTask");
-btnAddTask.addEventListener("click", btnAddTaskClicked);
-
-function btnAddTaskClicked(event) {
-    InputTaskID = 0;
-    clearModalFields();
-    document.getElementById("btnSubmit").innerHTML = "Save";
 }
 
-function addTask(name, desc, duedate, assignedto, status) {
-    taskAdmin.addTask(name, desc, duedate, assignedto, status);
-}
+// Accessing the DOM element to append bootsrap card
+const taskContainer = document.querySelector("#tskContainer");
+// Creating taskAdmin Object
+var taskAdmin = new TaskManager(taskContainer);
 
-addTask("Shopping", "Buy milk and cheese", "04/08/2020", "John", "Done");
-addTask("Gardening", "Water the plants", "05/08/2020", "Das", "In Progress");
-taskAdmin.display();
+taskAdmin.addTask("Shopping", "Buy milk and cheese", "04/08/2020", "John Smith", "Done");
+taskAdmin.addTask("Gardening", "Water the plants", "05/08/2020", "Mary Smith", "In Progress");
 
+////------------------------------------- Task 6 and 8 assignment/------------------------------------
 document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
     e.preventDefault();
     taskFormSubmitClick();
+    clearModalFormValues();
+    // hiding the form modal
+    $('#taskModal').modal('hide');
+    document.getElementById("btnSubmit").innerHTML = "Save";
 });
 
 function taskFormSubmitClick() {
-    TaskName = document.getElementById('txtTaskName').value;
-    TaskDesc = document.getElementById('txtTaskDec').value;
-    AssignedTo = document.getElementById('txtTaskAssigned').value;
-    Status = document.getElementById('selectStatus').value;
-    if (InputTaskID > 0) {
-        DueDate = document.getElementById('duedate').value;
-        taskAdmin.UpdateTask(InputTaskID, TaskName, TaskDesc, DueDate, AssignedTo, Status);
+    // Getting the values form the modal
+    var cardID = document.getElementById('task-id').value; // get the card ID from the hidden element
+    var taskName = document.getElementById('txtTaskName').value;
+    var taskDesc = document.getElementById('txtTaskDec').value;
+    var taskAssignedTo = document.getElementById('txtTaskAssigned').value;
+    var taskStatus = document.getElementById('selectStatus').value;
+    var dueDate = document.getElementById('duedate').value;
+
+    if (cardID != "") {
+        //  'task-id' input element in the html has been assigned a value in the 'editTaskClicked' function
+        taskAdmin.editTask(cardID, taskName, taskDesc, dueDate, taskAssignedTo, taskStatus);
     }
     else {
-        console.log("add task: " + TaskName);
-        DueDate = document.getElementById('duedate').value;//.split('T')[0];
-        addTask(TaskName, TaskDesc, DueDate, AssignedTo, Status);
-        //clear the fields
-        clearModalFields();
-        taskAdmin.display(); // Now display the card that's added
+        // whe adding a new task, 'task-id' input element in the html will be blank. IE. Perform edit method when 'card-id' is not blank other wise it's an ADD TASK call.
+        taskAdmin.addTask(taskName, taskDesc, dueDate, taskAssignedTo, taskStatus);
     }
 }
 
-function clearModalFields() {
+function clearModalFormValues() {
+    document.getElementById('task-id').value = ""; // Make hidden element task-id to blank aswewll.
     document.getElementById('txtTaskName').value = "";
     document.getElementById('txtTaskDec').value = "";
-    document.getElementById('duedate').value = "";
     document.getElementById('txtTaskAssigned').value = "";
     document.getElementById('selectStatus').value = "";
+    document.getElementById('duedate').value = "";
 }
+////-------------------------------------END OF Task 6 assignment/------------------------------------
 
-function editTaskClicked() {
-    const taskElement = event.target.closest('.card');
-    //console.log(taskElement.attributes.id.value);
-    InputTaskID = taskElement.attributes.id.value
 
-    const task = taskAdmin.tasks.find((tc) => InputTaskID == tc.ID);
-    document.getElementById('txtTaskName').value = task.TaskName;
-    document.getElementById('txtTaskDec').value = task.TaskDesc
-    document.getElementById('duedate').value = task.DueDate
-    document.getElementById('txtTaskAssigned').value = task.AssignedTo;
-    document.getElementById('selectStatus').value = task.Status;
-
-    $('#taskModal').modal('show');
-    document.getElementById("btnSubmit").innerHTML = "Update";
-    taskFormSubmitClick(InputTaskID);
-}
-
+//-------------------------------------- Task 7 assignment------------------------------------
 function deleteTaskClicked(event) {
-    //const element = event.target;    
     const taskElement = event.target.closest('.card');
-    //console.log(taskElement.attributes.id.value);
     taskAdmin.deleteTask(taskElement.attributes.id.value);
-    taskAdmin.display();
 }
+//-------------------------------------- End of Task 7 assignment------------------------------------
 
-function taskFormSubmitted(event) {
-    event.preventDefault();
-    $('#taskModal').modal('hide');
+//--------------------------------------- Task 8 assignement-----------------------------------------
+function editTaskClicked() {
+    const taskElement = event.target.closest('.card');  // Retrieving an Html element where class name = 'card'
+    const cardID = taskElement.attributes.id.value;     // Getting html element attribute value    
+
+    const updateTaskRecord = taskAdmin.tasks.find((tc) => cardID == tc.ID); // Retreving the task object from the tasks array using inbuld 'find' function ofS the array.
+    // Assign Card ID value to the hidden input html element, So when 'submit' button is clicked it knows what to perform (Add or Edit)
+    document.getElementById('task-id').value = cardID;
+    document.getElementById('txtTaskName').value = updateTaskRecord.TaskName;
+    document.getElementById('txtTaskDec').value = updateTaskRecord.TaskDesc;
+    document.getElementById('txtTaskAssigned').value = updateTaskRecord.AssignedTo;
+    document.getElementById('selectStatus').value = updateTaskRecord.Status;
+    document.getElementById('duedate').value = updateTaskRecord.DueDate;
+
+    // Rename submit button from 'Save' to 'Update'
+    document.getElementById("btnSubmit").innerHTML = "Update";
+    $('#taskModal').modal('show');
 }
