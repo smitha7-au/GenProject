@@ -117,7 +117,7 @@ document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
     clearModalFormValues();
     // hiding the form modal
     $('#taskModal').modal('hide');
-    document.getElementById("btnSubmit").innerHTML = "Save";
+    document.getElementById("taskModalLabel").innerHTML = "Add Task"
 });
 
 function taskFormSubmitClick() {
@@ -162,7 +162,7 @@ function editTaskClicked() {
     const taskElement = event.target.closest('.card');  // Retrieving an Html element where class name = 'card'
     const cardID = taskElement.attributes.id.value;     // Getting html element attribute value    
 
-    const updateTaskRecord = taskAdmin.tasks.find((tc) => cardID == tc.ID); // Retreving the task object from the tasks array using inbuld 'find' function ofS the array.
+    const updateTaskRecord = taskAdmin.tasks.find((tc) => cardID == tc.ID); // Retreving the task object from the tasks array using inbuld 'find' function of the array.
     // Assign Card ID value to the hidden input html element, So when 'submit' button is clicked it knows what to perform (Add or Edit)
     document.getElementById('task-id').value = cardID;
     document.getElementById('txtTaskName').value = updateTaskRecord.TaskName;
@@ -171,7 +171,7 @@ function editTaskClicked() {
     document.getElementById('selectStatus').value = updateTaskRecord.Status;
     document.getElementById('duedate').value = updateTaskRecord.DueDate;
 
-    // Rename submit button from 'Save' to 'Update'
-    document.getElementById("btnSubmit").innerHTML = "Update";
+
+    document.getElementById("taskModalLabel").innerHTML = "Update Task"
     $('#taskModal').modal('show');
 }
