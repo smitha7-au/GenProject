@@ -110,6 +110,13 @@ var taskAdmin = new TaskManager(taskContainer);
 taskAdmin.addTask("Shopping", "Buy milk and cheese", "04/08/2020", "John Smith", "Done");
 taskAdmin.addTask("Gardening", "Water the plants", "05/08/2020", "Mary Smith", "In Progress");
 
+// Add task button click event listener. when clicked on 'Add Task' button, the label for the model has to change it back to 'Add Task'
+document.querySelector('#btnAddTask').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById("taskModalLabel").innerHTML = "Add Task"
+    console.log(document.getElementById("taskModalLabel").innerHTML);
+});
+
 ////------------------------------------- Task 6 and 8 assignment/------------------------------------
 document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -117,7 +124,6 @@ document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
     clearModalFormValues();
     // hiding the form modal
     $('#taskModal').modal('hide');
-    document.getElementById("taskModalLabel").innerHTML = "Add Task"
 });
 
 function taskFormSubmitClick() {
@@ -170,7 +176,6 @@ function editTaskClicked() {
     document.getElementById('txtTaskAssigned').value = updateTaskRecord.AssignedTo;
     document.getElementById('selectStatus').value = updateTaskRecord.Status;
     document.getElementById('duedate').value = updateTaskRecord.DueDate;
-
 
     document.getElementById("taskModalLabel").innerHTML = "Update Task"
     $('#taskModal').modal('show');
