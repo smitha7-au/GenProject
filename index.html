@@ -11,89 +11,131 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <title>Add Task</title>
+    <title>Task Planner</title>
 </head>
 
 <body>
    
     <div class="container">
         <h3 id="plannerHeading">Task Planner</h3>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#taskModal">
-              Add Task</button>
-  
-              <div id="tasklist"></div>
-  
-              <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                      <form id="task-form">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="taskModalLabel">Add Task</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        
-                        <div class="modal-body">
-                          <div id ="validMessage"></div>
-                            <div class="form-group">
-                                <label for="forInputTask"><dt>Task</dt></label>
-                                <input type="text" id="forInputTask" class="form-control" placeholder="Enter the task" required>
+        <button id="btnAddTask" type="button" class="btn btn-primary mt-4" data-toggle="modal"
+            data-target="#taskModal">Add Task</button>
+
+        <div id="tskContainer">
+            <!-- Cards get added dynamically here -->
+        </div>
+        <form id="frmAddTask">
+            <div>
+                <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="taskModalLabel">Add Task</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                            <div class="form-group">
-                                <label for="forTaskDescription"><dt>Description</dt></label>
-                                <input type="text" id="forTaskDescription" class="form-control" placeholder="Enter the task description">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-5">
-                                    <label for="inputDate"><dt>Due Date</dt></label>
-                                    <input type="datetime-local"  class="form-control" id="inputDate" placeholder="dd/mm/yyyy">
+                            <div class="modal-body">
+                                <input id="task-id" type="text" class="form-control" hidden>
+                                <div class="form-group">
+                                    <label for="validation">
+                                        <dt>Task</dt>
+                                    </label>
+                                    <input id="txtTaskName" type="text" class="form-control"
+                                        pattern=(?=.*[a-z,A-Z]).{8,} title="with a minimum of '8' characters."
+                                        placeholder="Enter the task" required>
+                                    <div class="valid-feedback">
+                                        Task name validated successfully
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please provide a valid task name with a minimum of '8' characters.
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-4 offset-3">
-                                    <label for="forAssignedTo"><dt>Assigned To</dt></label>
-                                    <input type="text" class="form-control" id="forAssignedTo">       
+                                <div class="form-group">
+                                    <label for="forTaskDescription">
+                                        <dt>Description</dt>
+                                    </label>
+                                    <input id="txtTaskDec" type="text" class="form-control"
+                                        pattern=(?=.*[a-z,A-Z]).{15,} title="with a minimum of '15' characters."
+                                        placeholder="Enter the task description" required>
+                                    <div class="valid-feedback">
+                                        Task description validated successfully
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please provide a valid task description with a minimum of '15' characters.
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-5">
+                                        <label for="inputDate">
+                                            <dt>Due Date</dt>
+                                        </label>
+                                        <input id="duedate" type="datetime-local" class="form-control"
+                                            title="Date cannot be empty" placeholder="dd/mm/yyyy" required>
+                                        <div class="valid-feedback">
+                                            Due date validated successfully
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Enter the due date
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4 offset-3">
+                                        <label for="forAssignedTo">
+                                            <dt>Assigned To</dt>
+                                        </label>
+                                        <input id="txtTaskAssigned" type="text" class="form-control"
+                                            pattern=(?=.*[a-z,A-Z]).{8,} placeholder="Who is assigned to" required>
+                                        <div class="valid-feedback">
+                                            Task Assigned To validated successfully
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid task description with a minimum of '8'
+                                            characters.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="selectStatus">
+                                        <dt>Status</dt>
+                                    </label>
+                                    <select class="form-control" id="selectStatus">
+                                        <option>To Do</option>
+                                        <option>In Progress</option>
+                                        <option>Review</option>
+                                        <option>Done</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="selectStatus"><dt>Status</dt></label>
-                                <select class="form-control" name="Tstatus" id="selectStatus">
-                                    <option>To Do</option>
-                                    <option>In Progress</option>
-                                    <option>Review</option>
-                                    <option>Done</option>
-                                </select>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="btnSubmit">Save</button>
                             </div>
-                        
-                        
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          
-                          <button type="submit" id="btnClick" class="btn btn-primary">Add Task</button>
                         </div>
                       </form>
                     </div>
                   </div>
                 </div>
-          
-      </div>
-        
-      
-      
-      <script src=" app.js"></script>
+            </div>
+        </form>
+    </div>
+    <script src="app.js"></script>
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <!-- No Comments -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-            crossorigin="anonymous"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </body>
 
 </html>
