@@ -7,86 +7,50 @@ class Task {
         this.AssignedTo = assignedTo;
         this.Status = status;
     }
-    toHTMLElement() {
-        const htmlStr = this.toHTMLString();
-        const element = document.createRange().createContextualFragment(htmlStr);
-        element
-            .querySelector("button.edit")
-            .addEventListener("click", editTaskClicked);
-        element
-            .querySelector("button.delete")
-            .addEventListener("click", deleteTaskClicked);
-
-        return element;
-    }
-    toHTMLString() {
-        const htmlString = `
-        <div class="card border-info mt-2">
-            <div id ="${this.ID}" class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h5 class="card-title">${this.TaskName}</h5>
-                        </div>
-                        <div class="col-md-4">
-                            <h5 class="dueDateLabel">Due Date: ${this.DueDate}</h5>                        
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <label for="forTaskDescription">
-                        <dt>Description</dt>
-                    </label>
-                    <div class="overflow-auto border">
-                        <p class="card-text">${this.TaskDesc}</p>
-                    </div>
-                    <div class="row mt-5">
-                        <div class="col-md-6 border">
-                            <label for="forAssignedTo">
-                                <dt>Assigned To</dt>
-                            </label>
-                            <p>${this.AssignedTo}</p>
-                        </div>
-                        <div class="col-md-6 border">
-                            <label for="selectStatus">
-                                <dt>Status</dt>
-                            </label>
-                            <p>${this.Status}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="edit btn-primary btn-lg float-right ml-2"><i class="far fa-edit"></i></button>
-                    <button class="delete btn-danger btn-lg float-right"><i class="fa fa-trash"></i></button>                
-                </div>
-            </div>
-      </div>`;
-        return htmlString;
-    }
+   
 }
+//End of Task Class
+
+
 
 class TaskManager {
     constructor(taskContainer) {
-        this.ID = 501;
-        this.tasks = [];
+        this.tasks = JSON.parse(window.localStorage.getItem('mytasks')) || []; //Loads tasks from Local Storage to Task Manager.
         this.taskContainer = taskContainer;
+        this.ID = parseInt(localStorage.getItem('currentId')) || 501;
+        localStorage.setItem('currentId', this.ID);
     }
+
+
     addTask(name, desc, duedate, assignto, status) {
         const addNewTask = new Task(this.ID++, name, desc, duedate, assignto, status);
         this.tasks.push(addNewTask);
-        //Display Task
-        this.display();
+
+
+        //Adding tasks to Local Storage
+        localStorage.setItem('currentId', this.ID);
+        let myTasksInStore = JSON.parse(localStorage.getItem("mytasks")) || [];
+        myTasksInStore.push(addNewTask);
+        localStorage.setItem('mytasks', JSON.stringify(myTasksInStore));
+        window.location.reload();
+    
     }
-    display() {
-        this.taskContainer.innerHTML = "";
-        this.tasks.forEach((t) => {
-            this.taskContainer.append(t.toHTMLElement());
-        });
-    }
+
+
     deleteTask(id) {
         this.tasks = this.tasks.filter((h) => h.ID != id);
-        this.display();
+
+
+        //Deleting from Local storage
+        let myTasksInStore = JSON.parse(localStorage.getItem('mytasks'));
+        myTasksInStore = myTasksInStore.filter((h) => h.ID !=id);
+        localStorage.setItem('mytasks', JSON.stringify(myTasksInStore));
+        window.location.reload();
+        
+        
     }
+
+
     editTask(taskId, name, desc, duedate, assignedTo, status) {
         for (var i = 0; i < this.tasks.length; i++) {
             if (this.tasks[i].ID == taskId) {
@@ -95,20 +59,38 @@ class TaskManager {
                 this.tasks[i].DueDate = duedate;
                 this.tasks[i].AssignedTo = assignedTo;
                 this.tasks[i].Status = status;
+            
+                //Updating tasks in Local Storage
+                let myTasksInStore = JSON.parse(localStorage.getItem('mytasks'));
+                myTasksInStore[i].TaskName = name;
+                myTasksInStore[i].TaskDesc = desc;
+                myTasksInStore[i].AssignedTo = assignedTo;
+                myTasksInStore[i].DueDate = duedate;
+                myTasksInStore[i].Status = status;
+                localStorage.setItem('mytasks', JSON.stringify(myTasksInStore));
                 break;
             }
         }
-        this.display();
+        window.location.reload();
+
     }
 }
+//End of Task Manager Class
+
+
 
 // Accessing the DOM element to append bootsrap card
 const taskContainer = document.querySelector("#tskContainer");
 // Creating taskAdmin Object
 var taskAdmin = new TaskManager(taskContainer);
 
-taskAdmin.addTask("Shopping", "Buy milk and cheese", "04/08/2020", "John Smith", "Done");
-taskAdmin.addTask("Gardening", "Water the plants", "05/08/2020", "Mary Smith", "In Progress");
+
+
+//Loading Tasks from Storage.
+displayTasksFromStorage(); 
+
+
+
 
 // Add task button click event listener. when clicked on 'Add Task' button, the label for the model has to change it back to 'Add Task'
 document.querySelector('#btnAddTask').addEventListener('click', (e) => {
@@ -117,14 +99,17 @@ document.querySelector('#btnAddTask').addEventListener('click', (e) => {
     console.log(document.getElementById("taskModalLabel").innerHTML);
 });
 
-////------------------------------------- Task 6 and 8 assignment/------------------------------------
+
+
 document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
     e.preventDefault();
     taskFormSubmitClick();
-    clearModalFormValues();
+
     // hiding the form modal
     $('#taskModal').modal('hide');
 });
+
+
 
 function taskFormSubmitClick() {
     // Getting the values form the modal
@@ -145,25 +130,22 @@ function taskFormSubmitClick() {
     }
 }
 
-function clearModalFormValues() {
-    document.getElementById('task-id').value = ""; // Make hidden element task-id to blank aswewll.
-    document.getElementById('txtTaskName').value = "";
-    document.getElementById('txtTaskDec').value = "";
-    document.getElementById('txtTaskAssigned').value = "";
-    document.getElementById('selectStatus').value = "";
-    document.getElementById('duedate').value = "";
-}
-////-------------------------------------END OF Task 6 assignment/------------------------------------
 
 
-//-------------------------------------- Task 7 assignment------------------------------------
 function deleteTaskClicked(event) {
+    //Confirmation before deleting the task
+    if (confirm('Are you sure you want to delete the task?')) {
     const taskElement = event.target.closest('.card');
     taskAdmin.deleteTask(taskElement.attributes.id.value);
-}
-//-------------------------------------- End of Task 7 assignment------------------------------------
+    } else 
+    {
+        console.log('Task was not deleted');
+    }
 
-//--------------------------------------- Task 8 assignement-----------------------------------------
+}
+
+
+
 function editTaskClicked() {
     const taskElement = event.target.closest('.card');  // Retrieving an Html element where class name = 'card'
     const cardID = taskElement.attributes.id.value;     // Getting html element attribute value    
@@ -179,4 +161,70 @@ function editTaskClicked() {
 
     document.getElementById("taskModalLabel").innerHTML = "Update Task"
     $('#taskModal').modal('show');
+}
+
+
+
+
+//Displaying Tasks from Storage
+function displayTasksFromStorage() {
+    let taskContainer = document.querySelector("#tskContainer");
+    let htmlStr = "";
+    let myTasksInStore = JSON.parse(window.localStorage.getItem('mytasks'));
+    if (myTasksInStore) {
+        for(let i=0; i < myTasksInStore.length; i++){
+        htmlStr = `
+        <div class="card border-info mt-2">
+            <div id ="${myTasksInStore[i].ID}" class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title">${myTasksInStore[i].TaskName}</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="dueDateLabel">Due Date: ${myTasksInStore[i].DueDate}</h5>                        
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <label for="forTaskDescription">
+                        <dt>Description</dt>
+                    </label>
+                    <div class="overflow-auto border">
+                        <p class="card-text">${myTasksInStore[i].TaskDesc}</p>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-md-6 border">
+                            <label for="forAssignedTo">
+                                <dt>Assigned To</dt>
+                            </label>
+                            <p>${myTasksInStore[i].AssignedTo}</p>
+                        </div>
+                        <div class="col-md-6 border">
+                            <label for="selectStatus">
+                                <dt>Status</dt>
+                            </label>
+                            <p>${myTasksInStore[i].Status}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="edit btn-primary btn-lg float-right ml-2"><i class="far fa-edit"></i></button>
+                    <button class="delete btn-danger btn-lg float-right"><i class="fa fa-trash"></i></button>                
+                </div>
+            </div>
+        </div>`;
+        const element = document.createRange().createContextualFragment(htmlStr);
+        element
+            .querySelector("button.edit")
+            .addEventListener("click", editTaskClicked);
+        element
+            .querySelector("button.delete")
+            .addEventListener("click", deleteTaskClicked);
+
+        taskContainer.appendChild(element);
+
+        }
+    }
+
 }
