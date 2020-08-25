@@ -15,7 +15,7 @@ document.querySelector('#btnAddTask').addEventListener('click', (e) => {
 });
 
 
-
+//Add submit button event listener.
 document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
     e.preventDefault();
     taskFormSubmitClick();
@@ -36,11 +36,11 @@ function taskFormSubmitClick() {
     var dueDate = document.getElementById('duedate').value;
 
     if (cardID != "") {
-        //  'task-id' input element in the html has been assigned a value in the 'editTaskClicked' function
+        //  'task-id' input element is an hidden element in the html. Vaue gets updated in the 'editTaskClicked' function
         taskAdmin.editTask(cardID, taskName, taskDesc, dueDate, taskAssignedTo, taskStatus);
     }
     else {
-        // whe adding a new task, 'task-id' input element in the html will be blank. IE. Perform edit method when 'card-id' is not blank other wise it's an ADD TASK call.
+        // when adding a new task, 'task-id' input element in the html will be blank. IE. Perform edit method when 'card-id' is not blank other wise it's an ADD TASK call.
         taskAdmin.addTask(taskName, taskDesc, dueDate, taskAssignedTo, taskStatus);
     }
 }
@@ -60,7 +60,7 @@ function deleteTaskClicked(event) {
 
 
 function editTaskClicked() {
-    const taskElement = event.target.closest('.card');  // Retrieving an Html element where class name = 'card'
+    const taskElement = event.target.closest('.card');  // Retrieving an Html element where class name is 'card'
     const cardID = taskElement.attributes.id.value;     // Getting html element attribute value    
 
     const updateTaskRecord = taskAdmin.tasks.find((tc) => cardID == tc.ID); // Retreving the task object from the tasks array using inbuld 'find' function of the array.
@@ -85,7 +85,7 @@ function displayTasksFromStorage() {
         for (let i = 0; i < myTasksInStore.length; i++) {
             let formatDate = new Date(myTasksInStore[i].DueDate).toLocaleString("en-AU");
             htmlStr = `
-        <div class="card border-info mt-2">
+        <div class="parentcard border-info mt-2">
             <div id ="${myTasksInStore[i].ID}" class="card">
                 <div class="card-header">
                     <div class="row">
