@@ -7,7 +7,7 @@ class Task {
         this.AssignedTo = assignedTo;
         this.Status = status;
     }
-   
+
 }
 //End of Task Class
 
@@ -27,13 +27,13 @@ class TaskManager {
         this.tasks.push(addNewTask);
 
 
-        //Adding tasks to Local Storage
+        //Adding tasks to Local Storage 
         localStorage.setItem('currentId', this.ID);
         let myTasksInStore = JSON.parse(localStorage.getItem("mytasks")) || [];
         myTasksInStore.push(addNewTask);
         localStorage.setItem('mytasks', JSON.stringify(myTasksInStore));
         window.location.reload();
-    
+
     }
 
 
@@ -43,11 +43,11 @@ class TaskManager {
 
         //Deleting from Local storage
         let myTasksInStore = JSON.parse(localStorage.getItem('mytasks'));
-        myTasksInStore = myTasksInStore.filter((h) => h.ID !=id);
+        myTasksInStore = myTasksInStore.filter((h) => h.ID != id);
         localStorage.setItem('mytasks', JSON.stringify(myTasksInStore));
         window.location.reload();
-        
-        
+
+
     }
 
 
@@ -59,7 +59,7 @@ class TaskManager {
                 this.tasks[i].DueDate = duedate;
                 this.tasks[i].AssignedTo = assignedTo;
                 this.tasks[i].Status = status;
-            
+
                 //Updating tasks in Local Storage
                 let myTasksInStore = JSON.parse(localStorage.getItem('mytasks'));
                 myTasksInStore[i].TaskName = name;
@@ -87,7 +87,7 @@ var taskAdmin = new TaskManager(taskContainer);
 
 
 //Loading Tasks from Storage.
-displayTasksFromStorage(); 
+displayTasksFromStorage();
 
 
 
@@ -135,10 +135,9 @@ function taskFormSubmitClick() {
 function deleteTaskClicked(event) {
     //Confirmation before deleting the task
     if (confirm('Are you sure you want to delete the task?')) {
-    const taskElement = event.target.closest('.card');
-    taskAdmin.deleteTask(taskElement.attributes.id.value);
-    } else 
-    {
+        const taskElement = event.target.closest('.card');
+        taskAdmin.deleteTask(taskElement.attributes.id.value);
+    } else {
         console.log('Task was not deleted');
     }
 
@@ -172,8 +171,9 @@ function displayTasksFromStorage() {
     let htmlStr = "";
     let myTasksInStore = JSON.parse(window.localStorage.getItem('mytasks'));
     if (myTasksInStore) {
-        for(let i=0; i < myTasksInStore.length; i++){
-        htmlStr = `
+        for (let i = 0; i < myTasksInStore.length; i++) {
+            let formatDate = new Date(myTasksInStore[i].DueDate).toLocaleString("en-AU");
+            htmlStr = `
         <div class="card border-info mt-2">
             <div id ="${myTasksInStore[i].ID}" class="card">
                 <div class="card-header">
@@ -182,7 +182,7 @@ function displayTasksFromStorage() {
                             <h5 class="card-title">${myTasksInStore[i].TaskName}</h5>
                         </div>
                         <div class="col-md-4">
-                            <h5 class="dueDateLabel">Due Date: ${myTasksInStore[i].DueDate}</h5>                        
+                            <h5 class="dueDateLabel">Due Date: ${formatDate}</h5>                        
                         </div>
                     </div>
                 </div>
@@ -214,15 +214,15 @@ function displayTasksFromStorage() {
                 </div>
             </div>
         </div>`;
-        const element = document.createRange().createContextualFragment(htmlStr);
-        element
-            .querySelector("button.edit")
-            .addEventListener("click", editTaskClicked);
-        element
-            .querySelector("button.delete")
-            .addEventListener("click", deleteTaskClicked);
+            const element = document.createRange().createContextualFragment(htmlStr);
+            element
+                .querySelector("button.edit")
+                .addEventListener("click", editTaskClicked);
+            element
+                .querySelector("button.delete")
+                .addEventListener("click", deleteTaskClicked);
 
-        taskContainer.appendChild(element);
+            taskContainer.appendChild(element);
 
         }
     }
