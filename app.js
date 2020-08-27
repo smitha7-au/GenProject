@@ -4,20 +4,24 @@ import TaskManager from "./taskmanager.js"
 const taskContainer = document.querySelector("#tskContainer");
 // Creating taskAdmin Object
 var taskAdmin = new TaskManager(taskContainer);
+
+
 //Loading Tasks from Storage.
 displayTasksFromStorage();
+
 
 // Add task button click event listener. when clicked on 'Add Task' button, the label for the model has to change it back to 'Add Task'
 document.querySelector('#btnAddTask').addEventListener('click', (e) => {
     e.preventDefault();
+    clearModalFormValues(); // DONT DELETE THIS FUNCTION. THIS WILL CLEAR THE MODAL VALUES WHEN ADD TASK IS CLICKED
     document.getElementById("taskModalLabel").innerHTML = "Add Task"
     console.log(document.getElementById("taskModalLabel").innerHTML);
 });
 
 
-//Add submit button event listener.
+
 document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
-    e.preventDefault();
+    e.preventDefault(); // It prevent's from displayng the default values.
     taskFormSubmitClick();
 
     // hiding the form modal
@@ -36,13 +40,14 @@ function taskFormSubmitClick() {
     var dueDate = document.getElementById('duedate').value;
 
     if (cardID != "") {
-        //  'task-id' input element is an hidden element in the html. Vaue gets updated in the 'editTaskClicked' function
+        //  'task-id' input element in the html has been assigned a value in the 'editTaskClicked' function
         taskAdmin.editTask(cardID, taskName, taskDesc, dueDate, taskAssignedTo, taskStatus);
     }
     else {
-        // when adding a new task, 'task-id' input element in the html will be blank. IE. Perform edit method when 'card-id' is not blank other wise it's an ADD TASK call.
+        // whe adding a new task, 'task-id' input element in the html will be blank. IE. Perform edit method when 'card-id' is not blank other wise it's an ADD TASK call.
         taskAdmin.addTask(taskName, taskDesc, dueDate, taskAssignedTo, taskStatus);
     }
+    displayTasksFromStorage(); //call function to refresh the page from the storage
 }
 
 
@@ -52,15 +57,24 @@ function deleteTaskClicked(event) {
     if (confirm('Are you sure you want to delete the task?')) {
         const taskElement = event.target.closest('.card');
         taskAdmin.deleteTask(taskElement.attributes.id.value);
+        displayTasksFromStorage();
     } else {
         console.log('Task was not deleted');
     }
 
 }
 
+function clearModalFormValues() {
+    document.getElementById('task-id').value = ""; // Make hidden element task-id to blank aswewll.
+    document.getElementById('txtTaskName').value = "";
+    document.getElementById('txtTaskDec').value = "";
+    document.getElementById('txtTaskAssigned').value = "";
+    document.getElementById('selectStatus').value = "";
+    document.getElementById('duedate').value = "";
+}
 
 function editTaskClicked() {
-    const taskElement = event.target.closest('.card');  // Retrieving an Html element where class name is 'card'
+    const taskElement = event.target.closest('.card');  // Retrieving an Html element where class name = 'card'
     const cardID = taskElement.attributes.id.value;     // Getting html element attribute value    
 
     const updateTaskRecord = taskAdmin.tasks.find((tc) => cardID == tc.ID); // Retreving the task object from the tasks array using inbuld 'find' function of the array.
@@ -78,14 +92,13 @@ function editTaskClicked() {
 
 //Displaying Tasks from Storage
 function displayTasksFromStorage() {
-    let taskContainer = document.querySelector("#tskContainer");
-    let htmlStr = "";
+    taskContainer.innerHTML = "";
     let myTasksInStore = JSON.parse(window.localStorage.getItem('mytasks'));
     if (myTasksInStore) {
         for (let i = 0; i < myTasksInStore.length; i++) {
             let formatDate = new Date(myTasksInStore[i].DueDate).toLocaleString("en-AU");
-            htmlStr = `
-        <div class="parentcard border-info mt-2">
+            let htmlStr = `
+        <div class="card border-info mt-2">
             <div id ="${myTasksInStore[i].ID}" class="card">
                 <div class="card-header">
                     <div class="row">
@@ -137,5 +150,4 @@ function displayTasksFromStorage() {
 
         }
     }
-
-}
+} // end of displayTasksFromStorage function 
