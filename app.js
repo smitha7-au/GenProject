@@ -1,83 +1,4 @@
-class Task {
-    constructor(ID, name, desc, date, assignedTo, status) {
-        this.ID = ID;
-        this.TaskName = name;
-        this.TaskDesc = desc;
-        this.DueDate = date;
-        this.AssignedTo = assignedTo;
-        this.Status = status;
-    }
-
-}
-//End of Task Class
-
-
-
-class TaskManager {
-    constructor(taskContainer) {
-        this.tasks = JSON.parse(window.localStorage.getItem('mytasks')) || []; //Loads tasks from Local Storage to Task Manager.
-        this.taskContainer = taskContainer;
-        this.ID = parseInt(localStorage.getItem('currentId')) || 501;
-        localStorage.setItem('currentId', this.ID);
-    }
-
-
-    addTask(name, desc, duedate, assignto, status) {
-        const addNewTask = new Task(this.ID++, name, desc, duedate, assignto, status);
-        this.tasks.push(addNewTask);
-
-
-        //Adding tasks to Local Storage 
-        localStorage.setItem('currentId', this.ID);
-        let myTasksInStore = JSON.parse(localStorage.getItem("mytasks")) || [];
-        myTasksInStore.push(addNewTask);
-        localStorage.setItem('mytasks', JSON.stringify(myTasksInStore));
-        window.location.reload();
-
-    }
-
-
-    deleteTask(id) {
-        this.tasks = this.tasks.filter((h) => h.ID != id);
-
-
-        //Deleting from Local storage
-        let myTasksInStore = JSON.parse(localStorage.getItem('mytasks'));
-        myTasksInStore = myTasksInStore.filter((h) => h.ID != id);
-        localStorage.setItem('mytasks', JSON.stringify(myTasksInStore));
-        window.location.reload();
-
-
-    }
-
-
-    editTask(taskId, name, desc, duedate, assignedTo, status) {
-        for (var i = 0; i < this.tasks.length; i++) {
-            if (this.tasks[i].ID == taskId) {
-                this.tasks[i].TaskName = name;
-                this.tasks[i].TaskDesc = desc;
-                this.tasks[i].DueDate = duedate;
-                this.tasks[i].AssignedTo = assignedTo;
-                this.tasks[i].Status = status;
-
-                //Updating tasks in Local Storage
-                let myTasksInStore = JSON.parse(localStorage.getItem('mytasks'));
-                myTasksInStore[i].TaskName = name;
-                myTasksInStore[i].TaskDesc = desc;
-                myTasksInStore[i].AssignedTo = assignedTo;
-                myTasksInStore[i].DueDate = duedate;
-                myTasksInStore[i].Status = status;
-                localStorage.setItem('mytasks', JSON.stringify(myTasksInStore));
-                break;
-            }
-        }
-        window.location.reload();
-
-    }
-}
-//End of Task Manager Class
-
-
+import TaskManager from "./taskmanager.js"
 
 // Accessing the DOM element to append bootsrap card
 const taskContainer = document.querySelector("#tskContainer");
@@ -85,16 +6,14 @@ const taskContainer = document.querySelector("#tskContainer");
 var taskAdmin = new TaskManager(taskContainer);
 
 
-
 //Loading Tasks from Storage.
 displayTasksFromStorage();
-
-
 
 
 // Add task button click event listener. when clicked on 'Add Task' button, the label for the model has to change it back to 'Add Task'
 document.querySelector('#btnAddTask').addEventListener('click', (e) => {
     e.preventDefault();
+    clearModalFormValues(); // DONT DELETE THIS FUNCTION. THIS WILL CLEAR THE MODAL VALUES WHEN ADD TASK IS CLICKED
     document.getElementById("taskModalLabel").innerHTML = "Add Task"
     console.log(document.getElementById("taskModalLabel").innerHTML);
 });
@@ -102,7 +21,7 @@ document.querySelector('#btnAddTask').addEventListener('click', (e) => {
 
 
 document.querySelector('#frmAddTask').addEventListener('submit', (e) => {
-    e.preventDefault();
+    e.preventDefault(); // It prevent's from displayng the default values.
     taskFormSubmitClick();
 
     // hiding the form modal
@@ -128,6 +47,7 @@ function taskFormSubmitClick() {
         // whe adding a new task, 'task-id' input element in the html will be blank. IE. Perform edit method when 'card-id' is not blank other wise it's an ADD TASK call.
         taskAdmin.addTask(taskName, taskDesc, dueDate, taskAssignedTo, taskStatus);
     }
+    displayTasksFromStorage(); //call function to refresh the page from the storage
 }
 
 
@@ -137,13 +57,21 @@ function deleteTaskClicked(event) {
     if (confirm('Are you sure you want to delete the task?')) {
         const taskElement = event.target.closest('.card');
         taskAdmin.deleteTask(taskElement.attributes.id.value);
+        displayTasksFromStorage();
     } else {
         console.log('Task was not deleted');
     }
 
 }
 
-
+function clearModalFormValues() {
+    document.getElementById('task-id').value = ""; // Make hidden element task-id to blank aswewll.
+    document.getElementById('txtTaskName').value = "";
+    document.getElementById('txtTaskDec').value = "";
+    document.getElementById('txtTaskAssigned').value = "";
+    document.getElementById('selectStatus').value = "";
+    document.getElementById('duedate').value = "";
+}
 
 function editTaskClicked() {
     const taskElement = event.target.closest('.card');  // Retrieving an Html element where class name = 'card'
@@ -162,18 +90,14 @@ function editTaskClicked() {
     $('#taskModal').modal('show');
 }
 
-
-
-
 //Displaying Tasks from Storage
 function displayTasksFromStorage() {
-    let taskContainer = document.querySelector("#tskContainer");
-    let htmlStr = "";
+    taskContainer.innerHTML = "";
     let myTasksInStore = JSON.parse(window.localStorage.getItem('mytasks'));
     if (myTasksInStore) {
         for (let i = 0; i < myTasksInStore.length; i++) {
             let formatDate = new Date(myTasksInStore[i].DueDate).toLocaleString("en-AU");
-            htmlStr = `
+            let htmlStr = `
         <div class="card border-info mt-2">
             <div id ="${myTasksInStore[i].ID}" class="card">
                 <div class="card-header">
@@ -226,5 +150,4 @@ function displayTasksFromStorage() {
 
         }
     }
-
-}
+} // end of displayTasksFromStorage function 
