@@ -6,9 +6,25 @@ const taskContainer = document.querySelector("#tskContainer");
 var taskAdmin = new TaskManager(taskContainer);
 
 
-//Loading Tasks from Storage.
-displayTasksFromStorage();
+//Loading Tasks from Storage, So pass the parameter as "0".
+displayTasks(0);
 
+// get the HTML element for the drop down list
+const getStatus = document.getElementById('GetByStatus');
+// Now add the event listener when changing the selected value 
+getStatus.addEventListener('change', (e) => {
+    e.preventDefault();
+    let status = getStatus.options[getStatus.selectedIndex].value;
+
+    if (status === "All")
+        taskAdmin.tasks = JSON.parse(window.localStorage.getItem('mytasks')) || [];
+    else   // filter out the unwanted status's records
+        taskAdmin.tasks = taskAdmin.tasks.filter((h) => h.Status == status);
+
+    displayTasks(1);
+    // Now set the tasks array from the local storage after every slected value from the list
+    taskAdmin.tasks = JSON.parse(window.localStorage.getItem('mytasks')) || [];
+});
 
 // Add task button click event listener. when clicked on 'Add Task' button, the label for the model has to change it back to 'Add Task'
 document.querySelector('#btnAddTask').addEventListener('click', (e) => {
@@ -47,7 +63,7 @@ function taskFormSubmitClick() {
         // whe adding a new task, 'task-id' input element in the html will be blank. IE. Perform edit method when 'card-id' is not blank other wise it's an ADD TASK call.
         taskAdmin.addTask(taskName, taskDesc, dueDate, taskAssignedTo, taskStatus);
     }
-    displayTasksFromStorage(); //call function to refresh the page from the storage
+    displayTasks(0); //call function to refresh the page from the storage
 }
 
 
@@ -57,7 +73,7 @@ function deleteTaskClicked(event) {
     if (confirm('Are you sure you want to delete the task?')) {
         const taskElement = event.target.closest('.card');
         taskAdmin.deleteTask(taskElement.attributes.id.value);
-        displayTasksFromStorage();
+        displayTasks(0);
     } else {
         console.log('Task was not deleted');
     }
@@ -91,19 +107,26 @@ function editTaskClicked() {
 }
 
 //Displaying Tasks from Storage
-function displayTasksFromStorage() {
+function displayTasks(IsArray) {
     taskContainer.innerHTML = "";
-    let myTasksInStore = JSON.parse(window.localStorage.getItem('mytasks'));
-    if (myTasksInStore) {
-        for (let i = 0; i < myTasksInStore.length; i++) {
-            let formatDate = new Date(myTasksInStore[i].DueDate).toLocaleString("en-AU");
+    let myTaskLists;
+    if (IsArray === 1) {
+        myTaskLists = taskAdmin.tasks;
+    }
+    else {
+        myTaskLists = JSON.parse(window.localStorage.getItem('mytasks'));
+    }
+
+    if (myTaskLists) {
+        for (let i = 0; i < myTaskLists.length; i++) {
+            let formatDate = new Date(myTaskLists[i].DueDate).toLocaleString("en-AU");
             let htmlStr = `
         <div class="card border-info mt-2">
-            <div id ="${myTasksInStore[i].ID}" class="card">
+            <div id ="${myTaskLists[i].ID}" class="card">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-8">
-                            <h5 class="card-title">${myTasksInStore[i].TaskName}</h5>
+                            <h5 class="card-title">${myTaskLists[i].TaskName}</h5>
                         </div>
                         <div class="col-md-4">
                             <h5 class="dueDateLabel">Due Date: ${formatDate}</h5>                        
@@ -115,20 +138,20 @@ function displayTasksFromStorage() {
                         <dt>Description</dt>
                     </label>
                     <div class="overflow-auto border">
-                        <p class="card-text">${myTasksInStore[i].TaskDesc}</p>
+                        <p class="card-text">${myTaskLists[i].TaskDesc}</p>
                     </div>
                     <div class="row mt-5">
                         <div class="col-md-6 border">
                             <label for="forAssignedTo">
                                 <dt>Assigned To</dt>
                             </label>
-                            <p>${myTasksInStore[i].AssignedTo}</p>
+                            <p>${myTaskLists[i].AssignedTo}</p>
                         </div>
                         <div class="col-md-6 border">
                             <label for="selectStatus">
                                 <dt>Status</dt>
                             </label>
-                            <p>${myTasksInStore[i].Status}</p>
+                            <p>${myTaskLists[i].Status}</p>
                         </div>
                     </div>
                 </div>
@@ -150,4 +173,4 @@ function displayTasksFromStorage() {
 
         }
     }
-} // end of displayTasksFromStorage function 
+} // end of displayTasks function 

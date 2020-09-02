@@ -18,9 +18,24 @@
 
     <div class="container">
         <h3 id="plannerHeading">Task Planner</h3>
-        <button id="btnAddTask" type="button" class="btn btn-primary mt-4" data-toggle="modal"
-            data-target="#taskModal">Add Task</button>
-
+        <div class="row">
+            <div class="col-md-6">
+                <button id="btnAddTask" type="button" class="btn btn-primary mt-4" data-toggle="modal"
+                    data-target="#taskModal">Add Task</button>
+            </div>
+            <div class="col-md-6">
+                <label for="selectStatus">
+                    <dt>Status</dt>
+                </label>
+                <select class="form-control" id="GetByStatus">
+                    <option default>All</option>
+                    <option>To Do</option>
+                    <option>In Progress</option>
+                    <option>Review</option>
+                    <option>Done</option>
+                </select>
+            </div>
+        </div>
         <div id="tskContainer">
             <!-- Cards get added dynamically here -->
         </div>
